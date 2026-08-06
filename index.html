@@ -1,0 +1,3965 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "1d9efcb2-1de7-4434-936e-c66b4254fb87",
+          serviceWorkerParam: { scope: "/Planeamento/" },
+          serviceWorkerPath: "/Planeamento/OneSignalSDKWorker.js",
+          notifyButton: { enable: false },
+          allowLocalhostAsSecureOrigin: true,
+        });
+        try {
+          if (!(await OneSignal.Notifications.permission)) {
+            await OneSignal.Notifications.requestPermission();
+          }
+          await OneSignal.User.PushSubscription.optIn();
+        } catch(e) { console.warn("OneSignal optIn:", e); }
+        // Diagnóstico no arranque
+        setTimeout(async function() {
+          try {
+            console.log("OneSignal permission:", await OneSignal.Notifications.permission);
+            console.log("OneSignal optedIn:", OneSignal.User.PushSubscription.optedIn);
+            console.log("OneSignal subscription id:", OneSignal.User.PushSubscription.id);
+          } catch(e) {}
+        }, 4000);
+      });
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planeamento</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj4KICA8ZGVmcz48Y2xpcFBhdGggaWQ9ImNjIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk1Ii8+PC9jbGlwUGF0aD48L2RlZnM+CiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NSIgZmlsbD0iIzFhNGY4YiIvPgogIDxnIGNsaXAtcGF0aD0idXJsKCNjYykiIG9wYWNpdHk9IjAuMTgiPgogICAgPGxpbmUgeDE9IjUiIHkxPSI2MCIgeDI9IjE5NSIgeTI9IjYwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjUiIHkxPSI4MiIgeDI9IjE5NSIgeTI9IjgyIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjUiIHkxPSIxMDQiIHgyPSIxOTUiIHkyPSIxMDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CiAgICA8bGluZSB4MT0iNSIgeTE9IjEyNiIgeDI9IjE5NSIgeTI9IjEyNiIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiLz4KICAgIDxsaW5lIHgxPSI1IiB5MT0iMTQ4IiB4Mj0iMTk1IiB5Mj0iMTQ4IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iNSIgeDI9IjYwIiB5Mj0iMTk1IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjUiIHgyPSIxMDAiIHkyPSIxOTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CiAgICA8bGluZSB4MT0iMTQwIiB5MT0iNSIgeDI9IjE0MCIgeTI9IjE5NSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8L2c+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTM4IiByeD0iMjYiIHJ5PSI5IiBmaWxsPSIjZTBlN2ZmIiBvcGFjaXR5PSIwLjkiLz4KICA8cmVjdCB4PSI1NiIgeT0iOTYiIHdpZHRoPSI1MiIgaGVpZ2h0PSI0MiIgcng9IjQiIGZpbGw9IiNjN2QyZmUiIG9wYWNpdHk9IjAuOSIvPgogIDxlbGxpcHNlIGN4PSI4MiIgY3k9Ijk2IiByeD0iMjYiIHJ5PSI5IiBmaWxsPSIjYTViNGZjIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTA4IiByeD0iMjIiIHJ5PSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiM2MzY2ZjEiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTIwIiByeD0iMjIiIHJ5PSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiM2MzY2ZjEiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPHBhdGggZD0iTTEwMCAxMDAgUTEyOCA4MCAxNDAgNTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cmVjdCB4PSIxMzMiIHk9IjM4IiB3aWR0aD0iNiIgaGVpZ2h0PSI0NiIgcng9IjMiIGZpbGw9IiNlMGU3ZmYiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAxMzMgMzgpIi8+CiAgPGVsbGlwc2UgY3g9IjE0MSIgY3k9IjQ3IiByeD0iMyIgcnk9IjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFhNGY4YiIgc3Ryb2tlLXdpZHRoPSIyIiB0cmFuc2Zvcm09InJvdGF0ZSgtMzAgMTQxIDQ3KSIvPgogIDxwb2x5Z29uIHBvaW50cz0iMTU4LDg4IDE1NCw5MiAxNjEsMTA0IiBmaWxsPSIjYTViNGZjIi8+CiAgPGVsbGlwc2UgY3g9IjEzOCIgY3k9IjE0NSIgcng9IjciIHJ5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlN2ZmIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuOSIvPgogIDxlbGxpcHNlIGN4PSIxMzgiIGN5PSIxNjIiIHJ4PSI3IiByeT0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjkiLz4KICA8cGF0aCBkPSJNMTQzIDE0MSBRMTU4IDEyNiAxNzIgMTE1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMTQzIDE2MCBRMTU4IDE0NyAxNzIgMTE1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIxNTYiIGN5PSIxMzAiIHI9IjMiIGZpbGw9IiNhNWI0ZmMiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iMC4zNSIvPgo8L3N2Zz4=" />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj4KICA8ZGVmcz48Y2xpcFBhdGggaWQ9ImNjIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk1Ii8+PC9jbGlwUGF0aD48L2RlZnM+CiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NSIgZmlsbD0iIzFhNGY4YiIvPgogIDxnIGNsaXAtcGF0aD0idXJsKCNjYykiIG9wYWNpdHk9IjAuMTgiPgogICAgPGxpbmUgeDE9IjUiIHkxPSI2MCIgeDI9IjE5NSIgeTI9IjYwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjUiIHkxPSI4MiIgeDI9IjE5NSIgeTI9IjgyIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjUiIHkxPSIxMDQiIHgyPSIxOTUiIHkyPSIxMDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CiAgICA8bGluZSB4MT0iNSIgeTE9IjEyNiIgeDI9IjE5NSIgeTI9IjEyNiIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiLz4KICAgIDxsaW5lIHgxPSI1IiB5MT0iMTQ4IiB4Mj0iMTk1IiB5Mj0iMTQ4IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iNSIgeDI9IjYwIiB5Mj0iMTk1IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjUiIHgyPSIxMDAiIHkyPSIxOTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CiAgICA8bGluZSB4MT0iMTQwIiB5MT0iNSIgeDI9IjE0MCIgeTI9IjE5NSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8L2c+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTM4IiByeD0iMjYiIHJ5PSI5IiBmaWxsPSIjZTBlN2ZmIiBvcGFjaXR5PSIwLjkiLz4KICA8cmVjdCB4PSI1NiIgeT0iOTYiIHdpZHRoPSI1MiIgaGVpZ2h0PSI0MiIgcng9IjQiIGZpbGw9IiNjN2QyZmUiIG9wYWNpdHk9IjAuOSIvPgogIDxlbGxpcHNlIGN4PSI4MiIgY3k9Ijk2IiByeD0iMjYiIHJ5PSI5IiBmaWxsPSIjYTViNGZjIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTA4IiByeD0iMjIiIHJ5PSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiM2MzY2ZjEiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTIwIiByeD0iMjIiIHJ5PSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiM2MzY2ZjEiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPHBhdGggZD0iTTEwMCAxMDAgUTEyOCA4MCAxNDAgNTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cmVjdCB4PSIxMzMiIHk9IjM4IiB3aWR0aD0iNiIgaGVpZ2h0PSI0NiIgcng9IjMiIGZpbGw9IiNlMGU3ZmYiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAxMzMgMzgpIi8+CiAgPGVsbGlwc2UgY3g9IjE0MSIgY3k9IjQ3IiByeD0iMyIgcnk9IjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFhNGY4YiIgc3Ryb2tlLXdpZHRoPSIyIiB0cmFuc2Zvcm09InJvdGF0ZSgtMzAgMTQxIDQ3KSIvPgogIDxwb2x5Z29uIHBvaW50cz0iMTU4LDg4IDE1NCw5MiAxNjEsMTA0IiBmaWxsPSIjYTViNGZjIi8+CiAgPGVsbGlwc2UgY3g9IjEzOCIgY3k9IjE0NSIgcng9IjciIHJ5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlN2ZmIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuOSIvPgogIDxlbGxpcHNlIGN4PSIxMzgiIGN5PSIxNjIiIHJ4PSI3IiByeT0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjkiLz4KICA8cGF0aCBkPSJNMTQzIDE0MSBRMTU4IDEyNiAxNzIgMTE1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMTQzIDE2MCBRMTU4IDE0NyAxNzIgMTE1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIxNTYiIGN5PSIxMzAiIHI9IjMiIGZpbGw9IiNhNWI0ZmMiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iMC4zNSIvPgo8L3N2Zz4=" />
+    <meta name="theme-color" content="#1a4f8b" />
+    <script src="https://unpkg.com/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <!-- Ecrã de login -->
+    <div
+      id="app-login"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1a4f8b, #0f3460);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      ">
+      <div
+        id="login-box"
+        style="
+          background: #fff;
+          border-radius: 14px;
+          padding: 40px 36px;
+          width: 320px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          text-align: center;
+        ">
+        <div style="font-size: 36px; margin-bottom: 8px">🧵</div>
+        <div
+          style="
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a4f8b;
+            margin-bottom: 4px;
+          ">
+          Planeamento
+        </div>
+        <div style="font-size: 13px; color: #9ca3af; margin-bottom: 24px">
+          Introduz a password para aceder
+        </div>
+        <input
+          type="password"
+          id="login-pwd"
+          autocomplete="current-password"
+          placeholder="Password..."
+          style="
+            width: 100%;
+            font-size: 15px;
+            padding: 10px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+            text-align: center;
+            letter-spacing: 2px;
+          "
+          onkeydown="if (event.key === 'Enter') confirmarLogin();"
+          oninput="
+            document.getElementById('login-erro').style.display = 'none'
+          " />
+        <div
+          id="login-erro"
+          style="
+            display: none;
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 8px;
+          ">
+          &#10060; Password incorrecta. Tenta de novo.
+        </div>
+        <button
+          onclick="confirmarLogin()"
+          style="
+            margin-top: 16px;
+            width: 100%;
+            padding: 11px;
+            background: #1a4f8b;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+          ">
+          Entrar &#8594;
+        </button>
+      </div>
+      <div
+        style="
+          color: rgba(255, 255, 255, 0.4);
+          font-size: 11px;
+          margin-top: 20px;
+        ">
+        Planeamento T&ecirc;xtil &copy; 2026
+      </div>
+    </div>
+    <div class="topbar">
+      <h1 style="display: flex; align-items: center; gap: 10px">
+        <img
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj4KICA8ZGVmcz48Y2xpcFBhdGggaWQ9ImNjIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk1Ii8+PC9jbGlwUGF0aD48L2RlZnM+CiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NSIgZmlsbD0iIzFhNGY4YiIvPgogIDxnIGNsaXAtcGF0aD0idXJsKCNjYykiIG9wYWNpdHk9IjAuMTgiPgogICAgPGxpbmUgeDE9IjUiIHkxPSI2MCIgeDI9IjE5NSIgeTI9IjYwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjUiIHkxPSI4MiIgeDI9IjE5NSIgeTI9IjgyIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjUiIHkxPSIxMDQiIHgyPSIxOTUiIHkyPSIxMDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CiAgICA8bGluZSB4MT0iNSIgeTE9IjEyNiIgeDI9IjE5NSIgeTI9IjEyNiIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiLz4KICAgIDxsaW5lIHgxPSI1IiB5MT0iMTQ4IiB4Mj0iMTk1IiB5Mj0iMTQ4IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iNSIgeDI9IjYwIiB5Mj0iMTk1IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjUiIHgyPSIxMDAiIHkyPSIxOTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CiAgICA8bGluZSB4MT0iMTQwIiB5MT0iNSIgeDI9IjE0MCIgeTI9IjE5NSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8L2c+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTM4IiByeD0iMjYiIHJ5PSI5IiBmaWxsPSIjZTBlN2ZmIiBvcGFjaXR5PSIwLjkiLz4KICA8cmVjdCB4PSI1NiIgeT0iOTYiIHdpZHRoPSI1MiIgaGVpZ2h0PSI0MiIgcng9IjQiIGZpbGw9IiNjN2QyZmUiIG9wYWNpdHk9IjAuOSIvPgogIDxlbGxpcHNlIGN4PSI4MiIgY3k9Ijk2IiByeD0iMjYiIHJ5PSI5IiBmaWxsPSIjYTViNGZjIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTA4IiByeD0iMjIiIHJ5PSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiM2MzY2ZjEiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPGVsbGlwc2UgY3g9IjgyIiBjeT0iMTIwIiByeD0iMjIiIHJ5PSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiM2MzY2ZjEiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPHBhdGggZD0iTTEwMCAxMDAgUTEyOCA4MCAxNDAgNTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cmVjdCB4PSIxMzMiIHk9IjM4IiB3aWR0aD0iNiIgaGVpZ2h0PSI0NiIgcng9IjMiIGZpbGw9IiNlMGU3ZmYiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAxMzMgMzgpIi8+CiAgPGVsbGlwc2UgY3g9IjE0MSIgY3k9IjQ3IiByeD0iMyIgcnk9IjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFhNGY4YiIgc3Ryb2tlLXdpZHRoPSIyIiB0cmFuc2Zvcm09InJvdGF0ZSgtMzAgMTQxIDQ3KSIvPgogIDxwb2x5Z29uIHBvaW50cz0iMTU4LDg4IDE1NCw5MiAxNjEsMTA0IiBmaWxsPSIjYTViNGZjIi8+CiAgPGVsbGlwc2UgY3g9IjEzOCIgY3k9IjE0NSIgcng9IjciIHJ5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlN2ZmIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuOSIvPgogIDxlbGxpcHNlIGN4PSIxMzgiIGN5PSIxNjIiIHJ4PSI3IiByeT0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjkiLz4KICA8cGF0aCBkPSJNMTQzIDE0MSBRMTU4IDEyNiAxNzIgMTE1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMTQzIDE2MCBRMTU4IDE0NyAxNzIgMTE1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIxNTYiIGN5PSIxMzAiIHI9IjMiIGZpbGw9IiNhNWI0ZmMiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk1IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iMC4zNSIvPgo8L3N2Zz4="
+          style="width: 32px; height: 32px; border-radius: 6px"
+          alt="ícone" />
+        Planeamento
+      </h1>
+      <button
+        id="btn-undo"
+        onclick="desfazer()"
+        style="
+          display: none;
+          background: rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          color: #fff;
+          padding: 5px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 600;
+        "
+        title="Voltar">
+        &#8617;
+      </button>
+      <nav>
+        <button id="nb-dashboard" onclick="irPara('dashboard')" style="background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.6)">
+          &#127968; Dashboard
+        </button>
+        <button id="nb-lista" class="active" onclick="irPara('lista')">
+          &#128196; Fichas
+        </button>
+        <button id="nb-form" onclick="novaFicha()">&#43; Nova ficha</button>
+        <button id="nb-plan-p13" onclick="irPara('plan-p13')">
+          &#128197; Plan. P13
+        </button>
+        <button id="nb-fat-p13" onclick="pedirPin('fat-p13')">
+          &#128176; Fat. P13
+        </button>
+        <button id="nb-plan-cotton" onclick="irPara('plan-cotton')">
+          &#128197; Plan. COTTON
+        </button>
+        <button id="nb-plan-amostras" onclick="irPara('plan-amostras')">
+          &#128197; Plan. AMOSTRAS
+        </button>
+        <button id="nb-plan-subc" onclick="irPara('plan-subc')">
+          &#128197; Plan. SUBCONTR.
+        </button>
+        <button id="nb-fat-cotton" onclick="pedirPin('fat-cotton')">
+          &#128176; Fat. COTTON
+        </button>
+        <button id="nb-pack-p13" onclick="irPara('pack-p13')">
+          &#128230; Pack P13
+        </button>
+        <button id="nb-pack-cotton" onclick="irPara('pack-cotton')">
+          &#128230; Pack COTTON
+        </button>
+        <button id="nb-status" onclick="irPara('status')">
+          &#128204; Status
+        </button>
+        <button id="nb-corte" onclick="irPara('corte')">
+          &#9986;&#65039; Corte
+        </button>
+        <button id="nb-historico" onclick="irPara('historico')">
+          &#128203; Hist&#243;rico
+        </button>
+        <button
+          id="nb-cfg"
+          onclick="pedirPin('cfg')"
+          style="
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+          ">
+          &#9881;&#65039; Configura&ccedil;&atilde;o
+        </button>
+      </nav>
+    </div>
+
+    <div class="container">
+      <div id="msg-g" class="msg"></div>
+
+      <!-- ===== LISTA ===== -->
+      <div id="pg-dashboard" class="pg">
+        <div style="max-width:1100px;margin:0 auto">
+          <!-- Bem-vindo -->
+          <div style="background:linear-gradient(135deg,#1a4f8b 0%,#2d6db5 60%,#3b82c9 100%);border-radius:16px;padding:36px 40px;color:#fff;margin-bottom:24px;box-shadow:0 8px 24px rgba(26,79,139,.25);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+            <div>
+              <div style="font-size:26px;font-weight:800;margin-bottom:6px">Bem-vindo &#128075;</div>
+              <div style="font-size:13px;opacity:.85" id="dash-data-hoje"></div>
+            </div>
+            <div style="text-align:right">
+              <div id="dash-relogio" style="font-size:44px;font-weight:800;letter-spacing:2px;font-variant-numeric:tabular-nums">--:--:--</div>
+            </div>
+          </div>
+
+          <!-- Pesquisa geral -->
+          <div style="margin-bottom:24px;position:relative">
+            <input id="dash-pesquisa" type="text" placeholder="&#128269;  Pesquisar encomendas, fichas, modelos, clientes..."
+              oninput="pesquisaGeral(this.value)"
+              onkeydown="if(event.key==='Enter'){pesquisaGeralEnter();}"
+              style="width:100%;padding:14px 18px;font-size:15px;border:1px solid #d1d5db;border-radius:12px;box-sizing:border-box;outline:none;box-shadow:0 2px 8px rgba(0,0,0,.05)" />
+            <div id="dash-pesquisa-res" style="position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin-top:6px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:360px;overflow-y:auto;z-index:50;display:none"></div>
+          </div>
+
+          <!-- Alertas -->
+          <div class="card" style="margin-bottom:24px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+              <div style="font-size:15px;font-weight:700;color:#1a4f8b">&#128276; Alertas</div>
+
+              <button class="btn bsm" onclick="abrirNovoAlerta()">&#43; Novo alerta</button>
+            </div>
+            <div id="dash-alertas-lista"></div>
+            <div id="dash-notif-estado" style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f9fafb;border:1px solid #e5e7eb;font-size:12px;color:#374151;line-height:1.7">A verificar estado das notificações...</div>
+          </div>
+
+          <!-- Separadores -->
+          <div class="card">
+            <div style="font-size:15px;font-weight:700;color:#1a4f8b;margin-bottom:14px">&#128193; Separadores</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px">
+              <div class="dash-tile" onclick="irParaGrupo('fichas')"><div style="font-size:30px">&#128196;</div><div class="dash-tile-t">Fichas</div></div>
+              <div class="dash-tile" onclick="irParaGrupo('planeamento')"><div style="font-size:30px">&#128197;</div><div class="dash-tile-t">Planeamento</div></div>
+              <div class="dash-tile" onclick="irParaGrupo('faturacao')"><div style="font-size:30px">&#128176;</div><div class="dash-tile-t">Fatura&ccedil;&atilde;o</div></div>
+              <div class="dash-tile" onclick="irParaGrupo('packings')"><div style="font-size:30px">&#128230;</div><div class="dash-tile-t">Packings</div></div>
+              <div class="dash-tile" onclick="irParaGrupo('status')"><div style="font-size:30px">&#128204;</div><div class="dash-tile-t">Status</div></div>
+              <div class="dash-tile" onclick="irParaGrupo('corte')"><div style="font-size:30px">&#9986;&#65039;</div><div class="dash-tile-t">Corte</div></div>
+              <div class="dash-tile" onclick="irParaGrupo('historico')"><div style="font-size:30px">&#128203;</div><div class="dash-tile-t">Hist&oacute;rico</div></div>
+              <div class="dash-tile" onclick="irParaGrupo('cfg')"><div style="font-size:30px">&#9881;&#65039;</div><div class="dash-tile-t">Configura&ccedil;&otilde;es</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pg-lista" class="pg active">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">Fichas de custo</div>
+          <div style="display: flex; gap: 8px">
+            <button class="btn bsm" onclick="novaPasta()">
+              &#128193; Nova pasta
+            </button>
+            <button
+              class="btn btns bsm"
+              id="btn-exp-todas"
+              style="display: none"
+              onclick="expTodas()">
+              &#128229; Exportar todas
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de pesquisa -->
+        <div class="card" style="padding: 10px 14px; margin-bottom: 12px">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="font-size: 16px">&#128269;</span>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Pesquisar por refer&ecirc;ncia, modelo ou cliente (em todas as pastas)..."
+              oninput="onSearchInput()"
+              style="
+                flex: 1;
+                border: none;
+                outline: none;
+                font-size: 13px;
+                padding: 6px 0;
+              " />
+            <button
+              id="search-clear"
+              onclick="clearSearch()"
+              style="
+                display: none;
+                border: none;
+                background: none;
+                cursor: pointer;
+                color: #9ca3af;
+                font-size: 16px;
+              "
+              title="Limpar pesquisa">
+              &#x2715;
+            </button>
+          </div>
+        </div>
+
+        <!-- Breadcrumb de navegação de pastas -->
+        <div
+          id="folder-breadcrumb"
+          style="
+            display: none;
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 10px;
+          "></div>
+
+        <div id="lista-cont">
+          <div class="empty">
+            <div style="font-size: 36px">&#128392;</div>
+            <strong>Nenhuma ficha criada</strong><br /><span
+              style="font-size: 12px"
+              >Clica em "+ Nova ficha" para come&ccedil;ar</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FORM ===== -->
+      <div id="pg-form" class="pg">
+        <div class="hrow" style="margin-bottom: 12px">
+          <div style="font-size: 15px; font-weight: 700" id="form-tit">
+            Nova ficha de custo
+          </div>
+          <div style="display: flex; gap: 6px">
+            <button
+              class="btn btns bsm"
+              id="btn-xlsx"
+              style="display: none"
+              onclick="expAtual()">
+              &#128229; Excel
+            </button>
+            <button
+              class="btn bsm"
+              id="btn-dup"
+              style="display: none"
+              onclick="duplicarFicha()"
+              title="Duplicar esta ficha como nova">
+              &#128260; Duplicar
+            </button>
+            <button
+              class="btn bsm"
+              onclick="document.getElementById('imp-xlsx-inp').click()"
+              title="Importar dados de ficheiro Excel">
+              &#128194; Importar Excel
+            </button>
+            <input
+              type="file"
+              id="imp-xlsx-inp"
+              accept=".xlsx,.xls"
+              style="display: none"
+              onchange="importarExcel(this)" />
+            <button class="btn bsm" onclick="cancelar()">
+              &#x2715; Cancelar
+            </button>
+          </div>
+        </div>
+        <div id="msg-f" class="msg"></div>
+
+        <!-- Preview importação -->
+        <div
+          id="imp-preview"
+          class="card"
+          style="display: none; border: 2px solid #d97706; background: #fffbeb">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 12px;
+            ">
+            <div style="font-size: 13px; font-weight: 700; color: #92400e">
+              &#128194; Pré-visualização da importação
+            </div>
+            <div style="display: flex; gap: 8px">
+              <button class="btn btnp bsm" onclick="confirmarImport()">
+                &#10003; Confirmar e preencher
+              </button>
+              <button
+                class="btn bsm"
+                onclick="
+                  document.getElementById('imp-preview').style.display = 'none'
+                ">
+                &#x2715; Cancelar
+              </button>
+            </div>
+          </div>
+          <div
+            id="imp-preview-cont"
+            style="font-size: 12px; color: #374151; line-height: 1.8"></div>
+        </div>
+
+        <!-- Cabecalho -->
+        <div class="card">
+          <div class="stitle">Cabe&ccedil;alho</div>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 160px;
+              gap: 16px;
+              align-items: start;
+            ">
+            <div>
+              <div class="g2" style="margin-bottom: 10px">
+                <div class="fld">
+                  <label>Ficha n&ordm;</label
+                  ><input id="h-num" placeholder="001" />
+                </div>
+                <div class="fld">
+                  <label>Cliente</label
+                  ><input id="h-cli" placeholder="Nome do cliente" />
+                </div>
+              </div>
+              <div class="g3" style="margin-bottom: 10px">
+                <div class="fld">
+                  <label>Cole&ccedil;&atilde;o</label
+                  ><input id="h-col" placeholder="Ver&atilde;o 2025" />
+                </div>
+                <div class="fld">
+                  <label>Modelo</label
+                  ><input id="h-mod" placeholder="Camisa b&aacute;sica" />
+                </div>
+                <div class="fld">
+                  <label>Refer&ecirc;ncia *</label
+                  ><input id="h-ref" placeholder="CAM-001" />
+                </div>
+              </div>
+              <div class="g2">
+                <div class="fld">
+                  <label>N&ordm; Encomenda</label
+                  ><input id="h-enc" placeholder="ENC-2025-001" />
+                </div>
+                <div class="fld">
+                  <label>Data de entrega</label
+                  ><input type="date" id="h-entrega" />
+                </div>
+              </div>
+            </div>
+            <div style="width: 220px; flex-shrink: 0">
+              <div
+                style="
+                  font-size: 11px;
+                  color: #6b7280;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  margin-bottom: 6px;
+                ">
+                Foto do modelo
+              </div>
+              <div
+                id="foto-area"
+                tabindex="0"
+                onclick="
+                  document.getElementById('foto-area').focus();
+                  document.getElementById('foto-inp').click();
+                "
+                style="
+                  width: 100%;
+                  min-height: 160px;
+                  max-height: 320px;
+                  border: 2px dashed #d1d5db;
+                  border-radius: 8px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                  background: #f9fafb;
+                  overflow: hidden;
+                  outline: none;
+                  padding: 4px;
+                "
+                title="Clica para escolher ficheiro &#10;Ctrl+V para colar imagem">
+                <span
+                  id="foto-ph"
+                  style="
+                    text-align: center;
+                    color: #9ca3af;
+                    font-size: 12px;
+                    padding: 10px;
+                  "
+                  >&#128247;<br />Clica ou<br />Ctrl+V para colar</span
+                >
+                <img
+                  id="foto-img"
+                  src=""
+                  alt=""
+                  style="
+                    display: none;
+                    max-width: 100%;
+                    max-height: 300px;
+                    width: auto;
+                    height: auto;
+                    object-fit: contain;
+                  " />
+              </div>
+              <input
+                type="file"
+                id="foto-inp"
+                accept="image/*"
+                style="display: none"
+                onchange="carregarFoto(this)" />
+              <button
+                id="foto-rem"
+                class="btn btnd bsm"
+                onclick="remFoto()"
+                style="display: none; margin-top: 6px; width: 100%">
+                &#x2715; Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operacoes -->
+        <div class="card">
+          <div class="hrow">
+            <div class="stitle" style="margin-bottom: 0">
+              Opera&ccedil;&otilde;es
+            </div>
+            <button class="btn bsm" onclick="addOp(null)">&#43; Linha</button>
+          </div>
+          <div class="taxinfo">
+            &#9432; Taxa: 18,50 &euro;/h &mdash; Valor = 18,50 &divide; Qtd/hora
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th style="width: 30px">N&ordm;</th>
+                <th style="width: 22px"></th>
+                <th style="width: 14%">Equipamento</th>
+                <th>Descri&ccedil;&atilde;o</th>
+                <th style="width: 9%">Qtd/hora</th>
+                <th style="width: 9%">Valor (&euro;)</th>
+                <th style="width: 9%">Nota 1</th>
+                <th style="width: 9%">Nota 2</th>
+                <th style="width: 9%">Nota 3</th>
+                <th style="width: 9%">Nota 4</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="op-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="4"
+                  style="text-align: right; color: #6b7280; font-size: 12px">
+                  SUBTOTAL
+                </td>
+                <td id="sub-op">0,00 &euro;</td>
+                <td colspan="5"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Acabamentos -->
+        <div class="card">
+          <div class="hrow">
+            <div class="stitle" style="margin-bottom: 0">Acabamentos</div>
+            <button class="btn bsm" onclick="addAc(null)">&#43; Linha</button>
+          </div>
+          <div class="taxinfo">&#9432; Valor = 18,50 &divide; Qtd/hora</div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th style="width: 22px"></th>
+                <th>Descri&ccedil;&atilde;o</th>
+                <th style="width: 16%">Qtd/hora</th>
+                <th style="width: 16%">Valor (&euro;)</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="ac-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td
+                  colspan="2"
+                  style="text-align: right; color: #6b7280; font-size: 12px">
+                  TOTAL
+                </td>
+                <td id="sub-ac">0,00 &euro;</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Embalagem -->
+        <div class="card">
+          <div class="hrow">
+            <div class="stitle" style="margin-bottom: 0">Embalagem</div>
+            <button class="btn bsm" onclick="addEm(null)">&#43; Linha</button>
+          </div>
+          <div class="taxinfo">&#9432; Valor = 18,50 &divide; Qtd/hora</div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th style="width: 22px"></th>
+                <th>Opera&ccedil;&atilde;o</th>
+                <th style="width: 16%">Qtd/hora</th>
+                <th style="width: 16%">Valor (&euro;)</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="em-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td
+                  colspan="2"
+                  style="text-align: right; color: #6b7280; font-size: 12px">
+                  TOTAL
+                </td>
+                <td id="sub-em">0,00 &euro;</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Materias-primas -->
+        <div class="card">
+          <div class="hrow">
+            <div class="stitle" style="margin-bottom: 0">
+              Mat&eacute;rias-primas
+            </div>
+            <button class="btn bsm" onclick="addMp(null)">&#43; Linha</button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th>Descri&ccedil;&atilde;o</th>
+                <th style="width: 15%">Quantidade</th>
+                <th style="width: 16%">Valor (&euro;)</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="mp-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="2"
+                  style="text-align: right; color: #6b7280; font-size: 12px">
+                  TOTAL
+                </td>
+                <td id="sub-mp">0,00 &euro;</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Margens -->
+        <div class="card">
+          <div class="stitle">Margens e pre&ccedil;o</div>
+          <div class="prow">
+            <div class="pbadge pm">MARGEM</div>
+            <input
+              type="number"
+              class="pinp"
+              id="pct-m"
+              value="0"
+              min="0"
+              step="0.1"
+              oninput="recalc()" />
+            %
+            <div class="pval" id="val-m">0,00 &euro;</div>
+          </div>
+          <div class="prow">
+            <div class="pbadge pa">AGENTE</div>
+            <input
+              type="number"
+              class="pinp"
+              id="pct-a"
+              value="0"
+              min="0"
+              step="0.1"
+              oninput="recalc()" />
+            %
+            <div class="pval" id="val-a">0,00 &euro;</div>
+          </div>
+          <div class="prow">
+            <div class="pbadge pp">PRE&Ccedil;O</div>
+            <div
+              style="
+                margin-left: auto;
+                font-size: 20px;
+                font-weight: 700;
+                color: #1a4f8b;
+              "
+              id="val-p">
+              0,00 &euro;
+            </div>
+          </div>
+          <div
+            style="
+              margin-top: 14px;
+              padding-top: 12px;
+              border-top: 1px solid #e5e7eb;
+            ">
+            <div
+              style="
+                font-size: 12px;
+                font-weight: 700;
+                color: #6b7280;
+                text-transform: uppercase;
+                margin-bottom: 8px;
+              ">
+              Subcontrata&ccedil;&atilde;o (n&atilde;o incluída nos totais)
+            </div>
+            <div class="g2">
+              <div class="fld">
+                <label>Subcontratado</label
+                ><input
+                  id="sub-nome"
+                  placeholder="Empresa ou nome"
+                  oninput="recalc()" />
+              </div>
+              <div class="fld">
+                <label>Valor (&euro;)</label
+                ><input
+                  type="number"
+                  id="sub-val"
+                  value="0"
+                  min="0"
+                  step="0.01"
+                  oninput="recalc()" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Valor Final -->
+        <div class="totbox2" id="totbox-wrap">
+          <div class="totcard" style="background:#1a4f8b;flex:1">
+            <div style="font-size:12px;font-weight:700;opacity:.8;margin-bottom:4px">VALOR FINAL</div>
+            <div style="font-size:24px;font-weight:700" id="tot-com">0,00 &euro;</div>
+            <div style="font-size:11px;opacity:.65;margin-top:4px" id="tot-com-desc">
+              Base (Op + Acab + Emb + Mat.P.) com Margem e Agente
+            </div>
+          </div>
+          <div class="totcard" style="background:#0f6e56;flex:1;display:none" id="tot-emb-card">
+            <div style="font-size:12px;font-weight:700;opacity:.8;margin-bottom:4px">VALOR EMBALAGEM</div>
+            <div style="font-size:24px;font-weight:700" id="tot-emb-val">0,00 &euro;</div>
+            <div style="font-size:11px;opacity:.65;margin-top:4px">Embalagem (fora do cálculo)</div>
+          </div>
+        </div>
+        <!-- Checkbox embalagem -->
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;margin-bottom:2px">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#374151;font-weight:600">
+            <input type="checkbox" id="chk-incl-emb" onchange="guardarInclEmb()" style="width:15px;height:15px;cursor:pointer">
+            Incluir embalagem no cálculo do preço
+          </label>
+        </div>
+
+        <!-- Resumo -->
+        <div class="sumbox">
+          <div class="sumrow">
+            <span>Subtotal opera&ccedil;&otilde;es</span
+            ><span class="sumval" id="r-op">0,00 &euro;</span>
+          </div>
+          <div class="sumrow">
+            <span>Total acabamentos</span
+            ><span class="sumval" id="r-ac">0,00 &euro;</span>
+          </div>
+          <div class="sumrow">
+            <span>Total embalagem</span
+            ><span class="sumval" id="r-em">0,00 &euro;</span>
+          </div>
+          <div class="sumrow">
+            <span>Mat&eacute;rias-primas</span
+            ><span class="sumval" id="r-mp">0,00 &euro;</span>
+          </div>
+          <div
+            class="sumrow"
+            style="
+              border-top: 1px solid #bfcfe8;
+              margin-top: 4px;
+              padding-top: 10px;
+            ">
+            <strong>Base de c&aacute;lculo</strong
+            ><span class="sumval" id="r-base">0,00 &euro;</span>
+          </div>
+          <div class="sumrow" style="color: #9ca3af; font-size: 12px">
+            <span
+              >Subcontrata&ccedil;&atilde;o (n&atilde;o incluída) &mdash;
+              <span id="r-subnom"></span></span
+            ><span id="r-subval">0,00 &euro;</span>
+          </div>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 14px;
+          ">
+          <button class="btn btnp" onclick="salvar()" id="btn-salvar">
+            &#128190; Guardar ficha
+          </button>
+        </div>
+
+        <!-- Notas -->
+        <div class="card">
+          <div class="fld" style="margin-bottom: 10px">
+            <label>Notas</label
+            ><textarea
+              id="f-notas"
+              rows="3"
+              placeholder="Observa&ccedil;&otilde;es..."></textarea>
+          </div>
+          <div class="g2">
+            <div class="fld">
+              <label>Data</label><input type="date" id="f-data" />
+            </div>
+            <div class="fld">
+              <label>Elaborado por</label
+              ><input id="f-autor" placeholder="Nome" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PLANEAMENTO P13 ===== -->
+      <div id="pg-plan-p13" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128202; Planeamento semanal &mdash; P13
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button
+              class="btn bsm"
+              onclick="imprimirPlano('p13')"
+              title="Imprimir plano">
+              &#128438; Imprimir
+            </button>
+            <button class="btn btns bsm" onclick="expPlano('p13')">
+              &#128229; Excel
+            </button>
+            <button class="btn bsm" onclick="guardarSemana('p13')">
+              &#128190; Guardar semana
+            </button>
+          </div>
+        </div>
+
+        <!-- Selector semana -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              flex-wrap: wrap;
+            ">
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Ano</label
+              ><input
+                type="number"
+                id="p13-p-ano"
+                style="width: 80px"
+                min="2020"
+                max="2040"
+                oninput="updSemana('p13')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Semana n&ordm;</label
+              ><input
+                type="number"
+                id="p13-p-sem"
+                style="width: 70px"
+                min="1"
+                max="53"
+                oninput="updSemana('p13')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Horas dispon&iacute;veis/semana</label>
+              <input
+                type="number"
+                id="p13-p-horas"
+                style="width: 90px"
+                min="1"
+                step="0.5"
+                value="40"
+                oninput="recalcPlano('p13')"
+                placeholder="ex: 40" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Pessoas dispon&iacute;veis</label>
+              <input
+                type="number"
+                id="p13-p-pessoas"
+                style="width: 90px"
+                min="0"
+                step="1"
+                value="1"
+                oninput="recalcPlano('p13')"
+                placeholder="ex: 3" />
+            </div>
+            <div
+              style="padding-top: 18px; color: #6b7280; font-size: 13px"
+              id="p13-p-datas"></div>
+            <div
+              style="
+                margin-left: auto;
+                padding-top: 18px;
+                display: flex;
+                gap: 6px;
+              ">
+              <button class="btn bsm" onclick="semAnt('p13')">
+                &#8592; Anterior
+              </button>
+              <button class="btn bsm" onclick="semSeg('p13')">
+                Seguinte &#8594;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel de capacidade -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+          "
+          id="p13-p-cap-cards">
+          <div
+            style="
+              background: #1a4f8b;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total minutos
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="p13-cap-min">
+              0 min
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="p13-cap-min-falta"></div>
+          </div>
+          <div
+            style="
+              background: #0f6e56;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total horas
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="p13-cap-h">
+              0,0 h
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="p13-cap-h-falta"></div>
+          </div>
+          <div
+            id="p13-cap-pessoas-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #7c3aed;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Pessoas necess&aacute;rias
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="p13-cap-pessoas">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="p13-cap-pessoas-det"></div>
+            <div
+              style="font-size: 12px; font-weight: 700; margin-top: 4px"
+              id="p13-cap-pessoas-aviso"></div>
+          </div>
+          <div
+            id="p13-cap-carga-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #374151;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Carga de trabalho
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="p13-cap-carga">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="p13-cap-carga-det"></div>
+          </div>
+        </div>
+
+        <!-- Tabela modelos -->
+        <div class="card">
+          <div class="hrow">
+            <div style="font-size: 13px; font-weight: 700">
+              Modelos em produ&ccedil;&atilde;o
+            </div>
+            <button class="btn bsm" onclick="addPLinha('p13', null)">
+              &#43; Adicionar modelo
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th style="width: 22px"></th>
+                <th style="width: 12%">N&ordm; Encomenda</th>
+                <th style="width: 9%">Entrega</th>
+                <th style="width: 16%">Ref / modelo</th>
+                <th style="width: 16%">Ficha</th>
+                <th style="width: 12%">Opera&ccedil;&otilde;es</th>
+                <th style="width: 9%">Qtd (p&ccedil;)</th>
+                <th style="width: 11%">Total min</th>
+                <th style="width: 8%">Total h</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="p13-p-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="4"
+                  style="
+                    text-align: right;
+                    color: #6b7280;
+                    font-size: 12px;
+                    padding: 8px;
+                  ">
+                  TOTAL SEMANA
+                </td>
+                <td
+                  id="p13-p-tot-min"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0 min
+                </td>
+                <td
+                  id="p13-p-tot-h"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0,0 h
+                </td>
+                <td style="font-weight: 700; padding: 8px; color: #0f6e56">
+                  <span id="p13-p-tot-pcs">0 pç</span>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Detalhe operacoes (colapsável) -->
+        <div class="card" id="p13-p-det" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              cursor: pointer;
+            "
+            onclick="toggleDetMin('p13')">
+            <div style="font-size: 13px; font-weight: 700">
+              Detalhe de minutos por opera&ccedil;&atilde;o
+            </div>
+            <span id="p13-p-det-arrow" style="font-size: 12px; color: #6b7280"
+              >&#9656; Mostrar</span
+            >
+          </div>
+          <div
+            id="p13-p-det-cont"
+            style="display: none; margin-top: 12px"></div>
+        </div>
+
+        <!-- Pessoas por equipamento -->
+        <div class="card" id="p13-p-eq-card" style="display: none">
+          <div class="hrow" style="margin-bottom: 12px">
+            <div style="font-size: 13px; font-weight: 700">
+              Pessoas necess&aacute;rias por equipamento, acabamentos e
+              embalagem
+            </div>
+            <button
+              class="btn bsm"
+              onclick="imprimirEquipamentos('p13')"
+              title="Imprimir esta tabela">
+              &#128438; Imprimir
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th>Equipamento / Sec&ccedil;&atilde;o</th>
+                <th style="width: 14%">Total min</th>
+                <th style="width: 12%">Total h</th>
+                <th style="width: 16%">Pessoas necess&aacute;rias</th>
+              </tr>
+            </thead>
+            <tbody id="p13-p-eq-tb"></tbody>
+          </table>
+        </div>
+
+        <!-- Historico -->
+        <div style="margin-top: 20px">
+          <div style="font-size: 14px; font-weight: 700; margin-bottom: 10px">
+            Semanas guardadas &mdash; P13
+          </div>
+          <div id="p13-p-hist">
+            <div class="empty" style="padding: 24px">
+              <div style="font-size: 24px">&#128197;</div>
+              Nenhuma semana guardada ainda
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FATURAÇÃO P13 ===== -->
+      <div id="pg-fat-p13" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128176; Fatura&ccedil;&atilde;o semanal &mdash; P13 &mdash;
+            M&atilde;o de obra
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button class="btn bsm" onclick="fat_semAnt('p13')">
+              &#8592; Anterior
+            </button>
+            <button class="btn bsm" onclick="fat_semSeg('p13')">
+              Seguinte &#8594;
+            </button>
+            <button class="btn btns bsm" onclick="fat_expExcel('p13')">
+              &#128229; Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- Selector semana -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              flex-wrap: wrap;
+            ">
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Ano</label
+              ><input
+                type="number"
+                id="p13-fat-ano"
+                style="width: 80px"
+                min="2020"
+                max="2040"
+                oninput="fat_calc('p13')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Semana n&ordm;</label
+              ><input
+                type="number"
+                id="p13-fat-sem"
+                style="width: 70px"
+                min="1"
+                max="53"
+                oninput="fat_calc('p13')" />
+            </div>
+            <div
+              style="padding-top: 18px; color: #6b7280; font-size: 13px"
+              id="p13-fat-datas"></div>
+          </div>
+        </div>
+
+        <!-- Cartões resumo -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+          "
+          id="p13-fat-cards">
+          <div
+            style="
+              background: #1a4f8b;
+              color: #fff;
+              border-radius: 8px;
+              padding: 14px 20px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+              ">
+              Total faturar (sem embalagem)
+            </div>
+            <div style="font-size: 26px; font-weight: 700" id="p13-fat-tot-sem">
+              0,00 &euro;
+            </div>
+          </div>
+          <div
+            style="
+              background: #0f6e56;
+              color: #fff;
+              border-radius: 8px;
+              padding: 14px 20px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+              ">
+              Total faturar (com embalagem)
+            </div>
+            <div style="font-size: 26px; font-weight: 700" id="p13-fat-tot-com">
+              0,00 &euro;
+            </div>
+          </div>
+          <div
+            style="
+              background: #92400e;
+              color: #fff;
+              border-radius: 8px;
+              padding: 14px 20px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+              ">
+              Total pe&ccedil;as
+            </div>
+            <div style="font-size: 26px; font-weight: 700" id="p13-fat-tot-pcs">
+              0
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela por modelo -->
+        <div class="card">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 12px">
+            Detalhe por modelo
+          </div>
+          <div
+            id="p13-fat-aviso"
+            style="
+              display: none;
+              padding: 16px;
+              text-align: center;
+              color: #9ca3af;
+              font-size: 13px;
+            ">
+            &#128197; N&atilde;o h&aacute; nenhum plano guardado para esta
+            semana.<br />
+            <span style="font-size: 12px"
+              >Cria um plano em <strong>Planeamento P13</strong> e guarda-o
+              primeiro.</span
+            >
+          </div>
+          <table class="t" id="p13-fat-table" style="display: none">
+            <thead>
+              <tr>
+                <th>N&ordm; Encomenda</th>
+                <th>Ref / modelo</th>
+                <th style="width: 12%">Qtd (p&ccedil;)</th>
+                <th style="width: 16%">MO/pe&ccedil;a (sem emb.)</th>
+                <th style="width: 16%">MO/pe&ccedil;a (com emb.)</th>
+                <th style="width: 15%">Total (sem emb.)</th>
+                <th style="width: 15%">Total (com emb.)</th>
+              </tr>
+            </thead>
+            <tbody id="p13-fat-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="2"
+                  style="text-align: right; color: #6b7280; font-size: 12px">
+                  TOTAL
+                </td>
+                <td
+                  id="p13-fat-f-pcs"
+                  style="font-weight: 700; padding: 7px 8px">
+                  0
+                </td>
+                <td></td>
+                <td></td>
+                <td
+                  id="p13-fat-f-sem"
+                  style="font-weight: 700; padding: 7px 8px; color: #1a4f8b">
+                  0,00 &euro;
+                </td>
+                <td
+                  id="p13-fat-f-com"
+                  style="font-weight: 700; padding: 7px 8px; color: #0f6e56">
+                  0,00 &euro;
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Detalhe por secção -->
+        <div class="card" id="p13-fat-det-card" style="display: none">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 12px">
+            Detalhe por secção
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th>Secção</th>
+                <th style="width: 18%">Valor total</th>
+                <th style="width: 18%">% do total</th>
+              </tr>
+            </thead>
+            <tbody id="p13-fat-sec-tb"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== PLANEAMENTO COTTON ===== -->
+      <div id="pg-plan-cotton" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128202; Planeamento semanal &mdash; COTTON
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button
+              class="btn bsm"
+              onclick="imprimirPlano('cotton')"
+              title="Imprimir plano">
+              &#128438; Imprimir
+            </button>
+            <button class="btn btns bsm" onclick="expPlano('cotton')">
+              &#128229; Excel
+            </button>
+            <button class="btn bsm" onclick="guardarSemana('cotton')">
+              &#128190; Guardar semana
+            </button>
+          </div>
+        </div>
+
+        <!-- Selector semana -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              flex-wrap: wrap;
+            ">
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Ano</label
+              ><input
+                type="number"
+                id="cotton-p-ano"
+                style="width: 80px"
+                min="2020"
+                max="2040"
+                oninput="updSemana('cotton')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Semana n&ordm;</label
+              ><input
+                type="number"
+                id="cotton-p-sem"
+                style="width: 70px"
+                min="1"
+                max="53"
+                oninput="updSemana('cotton')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Horas dispon&iacute;veis/semana</label>
+              <input
+                type="number"
+                id="cotton-p-horas"
+                style="width: 90px"
+                min="1"
+                step="0.5"
+                value="40"
+                oninput="recalcPlano('cotton')"
+                placeholder="ex: 40" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Pessoas dispon&iacute;veis</label>
+              <input
+                type="number"
+                id="cotton-p-pessoas"
+                style="width: 90px"
+                min="0"
+                step="1"
+                value="1"
+                oninput="recalcPlano('cotton')"
+                placeholder="ex: 3" />
+            </div>
+            <div
+              style="padding-top: 18px; color: #6b7280; font-size: 13px"
+              id="cotton-p-datas"></div>
+            <div
+              style="
+                margin-left: auto;
+                padding-top: 18px;
+                display: flex;
+                gap: 6px;
+              ">
+              <button class="btn bsm" onclick="semAnt('cotton')">
+                &#8592; Anterior
+              </button>
+              <button class="btn bsm" onclick="semSeg('cotton')">
+                Seguinte &#8594;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel de capacidade -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+          "
+          id="cotton-p-cap-cards">
+          <div
+            style="
+              background: #1a4f8b;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total minutos
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="cotton-cap-min">
+              0 min
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="cotton-cap-min-falta"></div>
+          </div>
+          <div
+            style="
+              background: #0f6e56;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total horas
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="cotton-cap-h">
+              0,0 h
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="cotton-cap-h-falta"></div>
+          </div>
+          <div
+            id="cotton-cap-pessoas-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #7c3aed;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Pessoas necess&aacute;rias
+            </div>
+            <div
+              style="font-size: 22px; font-weight: 700"
+              id="cotton-cap-pessoas">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="cotton-cap-pessoas-det"></div>
+            <div
+              style="font-size: 12px; font-weight: 700; margin-top: 4px"
+              id="cotton-cap-pessoas-aviso"></div>
+          </div>
+          <div
+            id="cotton-cap-carga-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #374151;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Carga de trabalho
+            </div>
+            <div
+              style="font-size: 22px; font-weight: 700"
+              id="cotton-cap-carga">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="cotton-cap-carga-det"></div>
+          </div>
+        </div>
+
+        <!-- Tabela modelos -->
+        <div class="card">
+          <div class="hrow">
+            <div style="font-size: 13px; font-weight: 700">
+              Modelos em produ&ccedil;&atilde;o
+            </div>
+            <button class="btn bsm" onclick="addPLinha('cotton', null)">
+              &#43; Adicionar modelo
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th style="width: 22px"></th>
+                <th style="width: 12%">N&ordm; Encomenda</th>
+                <th style="width: 9%">Entrega</th>
+                <th style="width: 16%">Ref / modelo</th>
+                <th style="width: 16%">Ficha</th>
+                <th style="width: 12%">Opera&ccedil;&otilde;es</th>
+                <th style="width: 9%">Qtd (p&ccedil;)</th>
+                <th style="width: 11%">Total min</th>
+                <th style="width: 8%">Total h</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="cotton-p-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="4"
+                  style="
+                    text-align: right;
+                    color: #6b7280;
+                    font-size: 12px;
+                    padding: 8px;
+                  ">
+                  TOTAL SEMANA
+                </td>
+                <td
+                  id="cotton-p-tot-min"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0 min
+                </td>
+                <td
+                  id="cotton-p-tot-h"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0,0 h
+                </td>
+                <td style="font-weight: 700; padding: 8px; color: #0f6e56">
+                  <span id="cotton-p-tot-pcs">0 pç</span>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Detalhe operacoes (colapsável) -->
+        <div class="card" id="cotton-p-det" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              cursor: pointer;
+            "
+            onclick="toggleDetMin('cotton')">
+            <div style="font-size: 13px; font-weight: 700">
+              Detalhe de minutos por opera&ccedil;&atilde;o
+            </div>
+            <span
+              id="cotton-p-det-arrow"
+              style="font-size: 12px; color: #6b7280"
+              >&#9656; Mostrar</span
+            >
+          </div>
+          <div
+            id="cotton-p-det-cont"
+            style="display: none; margin-top: 12px"></div>
+        </div>
+
+        <!-- Pessoas por equipamento -->
+        <div class="card" id="cotton-p-eq-card" style="display: none">
+          <div class="hrow" style="margin-bottom: 12px">
+            <div style="font-size: 13px; font-weight: 700">
+              Pessoas necess&aacute;rias por equipamento, acabamentos e
+              embalagem
+            </div>
+            <button
+              class="btn bsm"
+              onclick="imprimirEquipamentos('cotton')"
+              title="Imprimir esta tabela">
+              &#128438; Imprimir
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th>Equipamento / Sec&ccedil;&atilde;o</th>
+                <th style="width: 14%">Total min</th>
+                <th style="width: 12%">Total h</th>
+                <th style="width: 16%">Pessoas necess&aacute;rias</th>
+              </tr>
+            </thead>
+            <tbody id="cotton-p-eq-tb"></tbody>
+          </table>
+        </div>
+
+        <!-- Historico -->
+        <div style="margin-top: 20px">
+          <div style="font-size: 14px; font-weight: 700; margin-bottom: 10px">
+            Semanas guardadas &mdash; COTTON
+          </div>
+          <div id="cotton-p-hist">
+            <div class="empty" style="padding: 24px">
+              <div style="font-size: 24px">&#128197;</div>
+              Nenhuma semana guardada ainda
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FATURAÇÃO COTTON ===== -->
+      <div id="pg-plan-amostras" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128202; Planeamento semanal &mdash; AMOSTRAS
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button
+              class="btn bsm"
+              onclick="imprimirPlano('amostras')"
+              title="Imprimir plano">
+              &#128438; Imprimir
+            </button>
+            <button class="btn btns bsm" onclick="expPlano('amostras')">
+              &#128229; Excel
+            </button>
+            <button class="btn bsm" onclick="guardarSemana('amostras')">
+              &#128190; Guardar semana
+            </button>
+          </div>
+        </div>
+
+        <!-- Selector semana -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              flex-wrap: wrap;
+            ">
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Ano</label
+              ><input
+                type="number"
+                id="amostras-p-ano"
+                style="width: 80px"
+                min="2020"
+                max="2040"
+                oninput="updSemana('amostras')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Semana n&ordm;</label
+              ><input
+                type="number"
+                id="amostras-p-sem"
+                style="width: 70px"
+                min="1"
+                max="53"
+                oninput="updSemana('amostras')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Horas dispon&iacute;veis/semana</label>
+              <input
+                type="number"
+                id="amostras-p-horas"
+                style="width: 90px"
+                min="1"
+                step="0.5"
+                value="40"
+                oninput="recalcPlano('amostras')"
+                placeholder="ex: 40" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Pessoas dispon&iacute;veis</label>
+              <input
+                type="number"
+                id="amostras-p-pessoas"
+                style="width: 90px"
+                min="0"
+                step="1"
+                value="1"
+                oninput="recalcPlano('amostras')"
+                placeholder="ex: 3" />
+            </div>
+            <div
+              style="padding-top: 18px; color: #6b7280; font-size: 13px"
+              id="amostras-p-datas"></div>
+            <div
+              style="
+                margin-left: auto;
+                padding-top: 18px;
+                display: flex;
+                gap: 6px;
+              ">
+              <button class="btn bsm" onclick="semAnt('amostras')">
+                &#8592; Anterior
+              </button>
+              <button class="btn bsm" onclick="semSeg('amostras')">
+                Seguinte &#8594;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel de capacidade -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+          "
+          id="amostras-p-cap-cards">
+          <div
+            style="
+              background: #1a4f8b;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total minutos
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="amostras-cap-min">
+              0 min
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="amostras-cap-min-falta"></div>
+          </div>
+          <div
+            style="
+              background: #0f6e56;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total horas
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="amostras-cap-h">
+              0,0 h
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="amostras-cap-h-falta"></div>
+          </div>
+          <div
+            id="amostras-cap-pessoas-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #7c3aed;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Pessoas necess&aacute;rias
+            </div>
+            <div
+              style="font-size: 22px; font-weight: 700"
+              id="amostras-cap-pessoas">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="amostras-cap-pessoas-det"></div>
+            <div
+              style="font-size: 12px; font-weight: 700; margin-top: 4px"
+              id="amostras-cap-pessoas-aviso"></div>
+          </div>
+          <div
+            id="amostras-cap-carga-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #374151;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Carga de trabalho
+            </div>
+            <div
+              style="font-size: 22px; font-weight: 700"
+              id="amostras-cap-carga">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="amostras-cap-carga-det"></div>
+          </div>
+        </div>
+
+        <!-- Tabela modelos -->
+        <div class="card">
+          <div class="hrow">
+            <div style="font-size: 13px; font-weight: 700">
+              Modelos em produ&ccedil;&atilde;o
+            </div>
+            <button class="btn bsm" onclick="addPLinha('amostras', null)">
+              &#43; Adicionar modelo
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th style="width: 22px"></th>
+                <th style="width: 12%">N&ordm; Encomenda</th>
+                <th style="width: 9%">Entrega</th>
+                <th style="width: 16%">Ref / modelo</th>
+                <th style="width: 16%">Ficha</th>
+                <th style="width: 12%">Opera&ccedil;&otilde;es</th>
+                <th style="width: 9%">Qtd (p&ccedil;)</th>
+                <th style="width: 11%">Total min</th>
+                <th style="width: 8%">Total h</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="amostras-p-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="4"
+                  style="
+                    text-align: right;
+                    color: #6b7280;
+                    font-size: 12px;
+                    padding: 8px;
+                  ">
+                  TOTAL SEMANA
+                </td>
+                <td
+                  id="amostras-p-tot-min"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0 min
+                </td>
+                <td
+                  id="amostras-p-tot-h"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0,0 h
+                </td>
+                <td style="font-weight: 700; padding: 8px; color: #0f6e56">
+                  <span id="amostras-p-tot-pcs">0 pç</span>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Detalhe operacoes (colapsável) -->
+        <div class="card" id="amostras-p-det" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              cursor: pointer;
+            "
+            onclick="toggleDetMin('amostras')">
+            <div style="font-size: 13px; font-weight: 700">
+              Detalhe de minutos por opera&ccedil;&atilde;o
+            </div>
+            <span
+              id="amostras-p-det-arrow"
+              style="font-size: 12px; color: #6b7280"
+              >&#9656; Mostrar</span
+            >
+          </div>
+          <div
+            id="amostras-p-det-cont"
+            style="display: none; margin-top: 12px"></div>
+        </div>
+
+        <!-- Pessoas por equipamento -->
+        <div class="card" id="amostras-p-eq-card" style="display: none">
+          <div class="hrow" style="margin-bottom: 12px">
+            <div style="font-size: 13px; font-weight: 700">
+              Pessoas necess&aacute;rias por equipamento, acabamentos e
+              embalagem
+            </div>
+            <button
+              class="btn bsm"
+              onclick="imprimirEquipamentos('amostras')"
+              title="Imprimir esta tabela">
+              &#128438; Imprimir
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th>Equipamento / Sec&ccedil;&atilde;o</th>
+                <th style="width: 14%">Total min</th>
+                <th style="width: 12%">Total h</th>
+                <th style="width: 16%">Pessoas necess&aacute;rias</th>
+              </tr>
+            </thead>
+            <tbody id="amostras-p-eq-tb"></tbody>
+          </table>
+        </div>
+
+        <!-- Historico -->
+        <div style="margin-top: 20px">
+          <div style="font-size: 14px; font-weight: 700; margin-bottom: 10px">
+            Semanas guardadas &mdash; AMOSTRAS
+          </div>
+          <div id="amostras-p-hist">
+            <div class="empty" style="padding: 24px">
+              <div style="font-size: 24px">&#128197;</div>
+              Nenhuma semana guardada ainda
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FATURAÇÃO AMOSTRAS ===== -->
+      <div id="pg-plan-subc" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128202; Planeamento semanal &mdash; SUBCONTRATADOS
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button
+              class="btn bsm"
+              onclick="imprimirPlano('subc')"
+              title="Imprimir plano">
+              &#128438; Imprimir
+            </button>
+            <button class="btn btns bsm" onclick="expPlano('subc')">
+              &#128229; Excel
+            </button>
+            <button class="btn bsm" onclick="guardarSemana('subc')">
+              &#128190; Guardar semana
+            </button>
+          </div>
+        </div>
+
+        <!-- Selector semana -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              flex-wrap: wrap;
+            ">
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Ano</label
+              ><input
+                type="number"
+                id="subc-p-ano"
+                style="width: 80px"
+                min="2020"
+                max="2040"
+                oninput="updSemana('subc')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Semana n&ordm;</label
+              ><input
+                type="number"
+                id="subc-p-sem"
+                style="width: 70px"
+                min="1"
+                max="53"
+                oninput="updSemana('subc')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Horas dispon&iacute;veis/semana</label>
+              <input
+                type="number"
+                id="subc-p-horas"
+                style="width: 90px"
+                min="1"
+                step="0.5"
+                value="40"
+                oninput="recalcPlano('subc')"
+                placeholder="ex: 40" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Pessoas dispon&iacute;veis</label>
+              <input
+                type="number"
+                id="subc-p-pessoas"
+                style="width: 90px"
+                min="0"
+                step="1"
+                value="1"
+                oninput="recalcPlano('subc')"
+                placeholder="ex: 3" />
+            </div>
+            <div
+              style="padding-top: 18px; color: #6b7280; font-size: 13px"
+              id="subc-p-datas"></div>
+            <div
+              style="
+                margin-left: auto;
+                padding-top: 18px;
+                display: flex;
+                gap: 6px;
+              ">
+              <button class="btn bsm" onclick="semAnt('subc')">
+                &#8592; Anterior
+              </button>
+              <button class="btn bsm" onclick="semSeg('subc')">
+                Seguinte &#8594;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel de capacidade -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+          "
+          id="subc-p-cap-cards">
+          <div
+            style="
+              background: #1a4f8b;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total minutos
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="subc-cap-min">
+              0 min
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="subc-cap-min-falta"></div>
+          </div>
+          <div
+            style="
+              background: #0f6e56;
+              color: #fff;
+              border-radius: 8px;
+              padding: 12px 16px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Total horas
+            </div>
+            <div style="font-size: 22px; font-weight: 700" id="subc-cap-h">
+              0,0 h
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="subc-cap-h-falta"></div>
+          </div>
+          <div
+            id="subc-cap-pessoas-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #7c3aed;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Pessoas necess&aacute;rias
+            </div>
+            <div
+              style="font-size: 22px; font-weight: 700"
+              id="subc-cap-pessoas">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="subc-cap-pessoas-det"></div>
+            <div
+              style="font-size: 12px; font-weight: 700; margin-top: 4px"
+              id="subc-cap-pessoas-aviso"></div>
+          </div>
+          <div
+            id="subc-cap-carga-card"
+            style="
+              border-radius: 8px;
+              padding: 12px 16px;
+              background: #374151;
+              color: #fff;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+              ">
+              Carga de trabalho
+            </div>
+            <div
+              style="font-size: 22px; font-weight: 700"
+              id="subc-cap-carga">
+              &mdash;
+            </div>
+            <div
+              style="font-size: 11px; opacity: 0.75; margin-top: 2px"
+              id="subc-cap-carga-det"></div>
+          </div>
+        </div>
+
+        <!-- Tabela modelos -->
+        <div class="card">
+          <div class="hrow">
+            <div style="font-size: 13px; font-weight: 700">
+              Modelos em produ&ccedil;&atilde;o
+            </div>
+            <button class="btn bsm" onclick="addPLinha('subc', null)">
+              &#43; Adicionar modelo
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th style="width: 22px"></th>
+                <th style="width: 12%">N&ordm; Encomenda</th>
+                <th style="width: 9%">Entrega</th>
+                <th style="width: 16%">Ref / modelo</th>
+                <th style="width: 16%">Ficha</th>
+                <th style="width: 12%">Opera&ccedil;&otilde;es</th>
+                <th style="width: 9%">Qtd (p&ccedil;)</th>
+                <th style="width: 11%">Total min</th>
+                <th style="width: 8%">Total h</th>
+                <th style="width: 28px"></th>
+              </tr>
+            </thead>
+            <tbody id="subc-p-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="4"
+                  style="
+                    text-align: right;
+                    color: #6b7280;
+                    font-size: 12px;
+                    padding: 8px;
+                  ">
+                  TOTAL SEMANA
+                </td>
+                <td
+                  id="subc-p-tot-min"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0 min
+                </td>
+                <td
+                  id="subc-p-tot-h"
+                  style="font-weight: 700; padding: 8px; color: #1a4f8b">
+                  0,0 h
+                </td>
+                <td style="font-weight: 700; padding: 8px; color: #0f6e56">
+                  <span id="subc-p-tot-pcs">0 pç</span>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Detalhe operacoes (colapsável) -->
+        <div class="card" id="subc-p-det" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              cursor: pointer;
+            "
+            onclick="toggleDetMin('subc')">
+            <div style="font-size: 13px; font-weight: 700">
+              Detalhe de minutos por opera&ccedil;&atilde;o
+            </div>
+            <span
+              id="subc-p-det-arrow"
+              style="font-size: 12px; color: #6b7280"
+              >&#9656; Mostrar</span
+            >
+          </div>
+          <div
+            id="subc-p-det-cont"
+            style="display: none; margin-top: 12px"></div>
+        </div>
+
+        <!-- Pessoas por equipamento -->
+        <div class="card" id="subc-p-eq-card" style="display: none">
+          <div class="hrow" style="margin-bottom: 12px">
+            <div style="font-size: 13px; font-weight: 700">
+              Pessoas necess&aacute;rias por equipamento, acabamentos e
+              embalagem
+            </div>
+            <button
+              class="btn bsm"
+              onclick="imprimirEquipamentos('subc')"
+              title="Imprimir esta tabela">
+              &#128438; Imprimir
+            </button>
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th>Equipamento / Sec&ccedil;&atilde;o</th>
+                <th style="width: 14%">Total min</th>
+                <th style="width: 12%">Total h</th>
+                <th style="width: 16%">Pessoas necess&aacute;rias</th>
+              </tr>
+            </thead>
+            <tbody id="subc-p-eq-tb"></tbody>
+          </table>
+        </div>
+
+        <!-- Historico -->
+        <div style="margin-top: 20px">
+          <div style="font-size: 14px; font-weight: 700; margin-bottom: 10px">
+            Semanas guardadas &mdash; SUBCONTRATADOS
+          </div>
+          <div id="subc-p-hist">
+            <div class="empty" style="padding: 24px">
+              <div style="font-size: 24px">&#128197;</div>
+              Nenhuma semana guardada ainda
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FATURAÇÃO SUBCONTRATADOS ===== -->
+      <div id="pg-fat-cotton" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128176; Fatura&ccedil;&atilde;o semanal &mdash; COTTON &mdash;
+            M&atilde;o de obra
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button class="btn bsm" onclick="fat_semAnt('cotton')">
+              &#8592; Anterior
+            </button>
+            <button class="btn bsm" onclick="fat_semSeg('cotton')">
+              Seguinte &#8594;
+            </button>
+            <button class="btn btns bsm" onclick="fat_expExcel('cotton')">
+              &#128229; Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- Selector semana -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              flex-wrap: wrap;
+            ">
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Ano</label
+              ><input
+                type="number"
+                id="cotton-fat-ano"
+                style="width: 80px"
+                min="2020"
+                max="2040"
+                oninput="fat_calc('cotton')" />
+            </div>
+            <div class="fld" style="flex: 0 0 auto">
+              <label>Semana n&ordm;</label
+              ><input
+                type="number"
+                id="cotton-fat-sem"
+                style="width: 70px"
+                min="1"
+                max="53"
+                oninput="fat_calc('cotton')" />
+            </div>
+            <div
+              style="padding-top: 18px; color: #6b7280; font-size: 13px"
+              id="cotton-fat-datas"></div>
+          </div>
+        </div>
+
+        <!-- Cartões resumo -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+          "
+          id="cotton-fat-cards">
+          <div
+            style="
+              background: #1a4f8b;
+              color: #fff;
+              border-radius: 8px;
+              padding: 14px 20px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+              ">
+              Total faturar (sem embalagem)
+            </div>
+            <div
+              style="font-size: 26px; font-weight: 700"
+              id="cotton-fat-tot-sem">
+              0,00 &euro;
+            </div>
+          </div>
+          <div
+            style="
+              background: #0f6e56;
+              color: #fff;
+              border-radius: 8px;
+              padding: 14px 20px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+              ">
+              Total faturar (com embalagem)
+            </div>
+            <div
+              style="font-size: 26px; font-weight: 700"
+              id="cotton-fat-tot-com">
+              0,00 &euro;
+            </div>
+          </div>
+          <div
+            style="
+              background: #92400e;
+              color: #fff;
+              border-radius: 8px;
+              padding: 14px 20px;
+            ">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                opacity: 0.8;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+              ">
+              Total pe&ccedil;as
+            </div>
+            <div
+              style="font-size: 26px; font-weight: 700"
+              id="cotton-fat-tot-pcs">
+              0
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela por modelo -->
+        <div class="card">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 12px">
+            Detalhe por modelo
+          </div>
+          <div
+            id="cotton-fat-aviso"
+            style="
+              display: none;
+              padding: 16px;
+              text-align: center;
+              color: #9ca3af;
+              font-size: 13px;
+            ">
+            &#128197; N&atilde;o h&aacute; nenhum plano guardado para esta
+            semana.<br />
+            <span style="font-size: 12px"
+              >Cria um plano em <strong>Planeamento COTTON</strong> e guarda-o
+              primeiro.</span
+            >
+          </div>
+          <table class="t" id="cotton-fat-table" style="display: none">
+            <thead>
+              <tr>
+                <th>N&ordm; Encomenda</th>
+                <th>Ref / modelo</th>
+                <th style="width: 12%">Qtd (p&ccedil;)</th>
+                <th style="width: 16%">MO/pe&ccedil;a (sem emb.)</th>
+                <th style="width: 16%">MO/pe&ccedil;a (com emb.)</th>
+                <th style="width: 15%">Total (sem emb.)</th>
+                <th style="width: 15%">Total (com emb.)</th>
+              </tr>
+            </thead>
+            <tbody id="cotton-fat-tb"></tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colspan="2"
+                  style="text-align: right; color: #6b7280; font-size: 12px">
+                  TOTAL
+                </td>
+                <td
+                  id="cotton-fat-f-pcs"
+                  style="font-weight: 700; padding: 7px 8px">
+                  0
+                </td>
+                <td></td>
+                <td></td>
+                <td
+                  id="cotton-fat-f-sem"
+                  style="font-weight: 700; padding: 7px 8px; color: #1a4f8b">
+                  0,00 &euro;
+                </td>
+                <td
+                  id="cotton-fat-f-com"
+                  style="font-weight: 700; padding: 7px 8px; color: #0f6e56">
+                  0,00 &euro;
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Detalhe por secção -->
+        <div class="card" id="cotton-fat-det-card" style="display: none">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 12px">
+            Detalhe por secção
+          </div>
+          <table class="t">
+            <thead>
+              <tr>
+                <th>Secção</th>
+                <th style="width: 18%">Valor total</th>
+                <th style="width: 18%">% do total</th>
+              </tr>
+            </thead>
+            <tbody id="cotton-fat-sec-tb"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== STATUS DE ENCOMENDAS ===== -->
+      <div id="pg-status" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128204; Status de Encomendas
+          </div>
+          <button class="btn btnp bsm" onclick="novaEncomenda()">
+            &#43; Nova encomenda
+          </button>
+        </div>
+
+        <!-- Barra de pesquisa -->
+        <div class="card" style="padding: 10px 14px; margin-bottom: 12px">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="font-size: 16px">&#128269;</span>
+            <input
+              type="text"
+              id="status-search"
+              placeholder="Pesquisar por n&ordm; encomenda, refer&ecirc;ncia, cliente ou fam&iacute;lia..."
+              oninput="renderStatus()"
+              style="
+                flex: 1;
+                border: none;
+                outline: none;
+                font-size: 13px;
+                padding: 6px 0;
+              " />
+            <button
+              id="status-search-clear"
+              onclick="
+                document.getElementById('status-search').value = '';
+                renderStatus();
+              "
+              style="
+                display: none;
+                border: none;
+                background: none;
+                cursor: pointer;
+                color: #9ca3af;
+                font-size: 16px;
+              ">
+              &#x2715;
+            </button>
+            <button
+              id="btn-filtros-status"
+              onclick="abrirFiltrosStatus()"
+              style="
+                padding: 5px 12px;
+                border-radius: 6px;
+                border: 1px solid #d1d5db;
+                background: #fff;
+                cursor: pointer;
+                font-size: 12px;
+                color: #374151;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                white-space: nowrap;
+                flex-shrink: 0;
+              ">
+              &#9878; Filtros
+              <span
+                id="filtros-status-badge"
+                style="
+                  display: none;
+                  background: #1a4f8b;
+                  color: #fff;
+                  border-radius: 10px;
+                  padding: 0 6px;
+                  font-size: 11px;
+                  font-weight: 700;
+                  margin-left: 2px;
+                "
+                >0</span
+              >
+            </button>
+            <button onclick="exportarStatusExcel('faltas')" style="padding:5px 12px;border-radius:6px;border:1px solid #fca5a5;background:#fef2f2;cursor:pointer;font-size:12px;color:#dc2626;white-space:nowrap;flex-shrink:0">📥 Exportar faltas</button>
+            <button onclick="exportarStatusExcel('tudo')" style="padding:5px 12px;border-radius:6px;border:1px solid #6ee7b7;background:#ecfdf5;cursor:pointer;font-size:12px;color:#065f46;white-space:nowrap;flex-shrink:0">📥 Exportar tudo</button>
+          </div>
+        </div>
+
+        <!-- Legenda -->
+        <div
+          style="
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 14px;
+            align-items: center;
+          ">
+          <span
+            ><span
+              style="
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #16a34a;
+                vertical-align: middle;
+                margin-right: 4px;
+              "></span
+            >Conclu&iacute;do</span
+          >
+          <span
+            ><span
+              style="
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #f59e0b;
+                vertical-align: middle;
+                margin-right: 4px;
+              "></span
+            >Em falta / incompleto</span
+          >
+          <span
+            ><span
+              style="
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #d1d5db;
+                vertical-align: middle;
+                margin-right: 4px;
+              "></span
+            >Ainda n&atilde;o chegou</span
+          >
+          <span style="margin-left: auto"
+            ><span
+              style="
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                border-radius: 4px;
+                background: linear-gradient(135deg, #16a34a, #0f6e56);
+                vertical-align: middle;
+                margin-right: 4px;
+              "></span
+            >Pronta para confeccionar</span
+          >
+        </div>
+
+        <div class="st-cols" id="status-colunas">
+          <div class="st-col">
+            <div class="st-col-hdr" style="background: #1a4f8b">
+              &#129507; Underwear
+              <span class="st-col-cnt" id="cnt-underwear">0</span
+              ><span
+                id="pcs-underwear"
+                style="
+                  font-size: 10px;
+                  background: rgba(255, 255, 255, 0.15);
+                  border-radius: 10px;
+                  padding: 1px 7px;
+                  margin-left: 4px;
+                  opacity: 0.9;
+                "
+                >0 pç</span
+              >
+            </div>
+            <div class="st-col-body" id="col-underwear"></div>
+          </div>
+          <div class="st-col">
+            <div class="st-col-hdr" style="background: #0f6e56">
+              &#127946; Banho <span class="st-col-cnt" id="cnt-banho">0</span
+              ><span
+                id="pcs-banho"
+                style="
+                  font-size: 10px;
+                  background: rgba(255, 255, 255, 0.15);
+                  border-radius: 10px;
+                  padding: 1px 7px;
+                  margin-left: 4px;
+                  opacity: 0.9;
+                "
+                >0 pç</span
+              >
+            </div>
+            <div class="st-col-body" id="col-banho"></div>
+          </div>
+          <div class="st-col">
+            <div class="st-col-hdr" style="background: #7c3aed">
+              &#127939; Desporto
+              <span class="st-col-cnt" id="cnt-desporto">0</span
+              ><span
+                id="pcs-desporto"
+                style="
+                  font-size: 10px;
+                  background: rgba(255, 255, 255, 0.15);
+                  border-radius: 10px;
+                  padding: 1px 7px;
+                  margin-left: 4px;
+                  opacity: 0.9;
+                "
+                >0 pç</span
+              >
+            </div>
+            <div class="st-col-body" id="col-desporto"></div>
+          </div>
+          <div class="st-col">
+            <div class="st-col-hdr" style="background: #6b7280">
+              &#128230; Outros <span class="st-col-cnt" id="cnt-outros">0</span
+              ><span
+                id="pcs-outros"
+                style="
+                  font-size: 10px;
+                  background: rgba(255, 255, 255, 0.15);
+                  border-radius: 10px;
+                  padding: 1px 7px;
+                  margin-left: 4px;
+                  opacity: 0.9;
+                "
+                >0 pç</span
+              >
+            </div>
+            <div class="st-col-body" id="col-outros"></div>
+          </div>
+        </div>
+        <div id="status-lista" style="display: none"></div>
+      </div>
+
+      <!-- Modal: nova/editar encomenda -->
+      <div class="ops-modal-overlay" id="enc-modal-overlay">
+        <div class="ops-modal" style="width: 400px">
+          <div class="ops-modal-hdr">
+            <span id="enc-modal-titulo">Nova encomenda</span>
+            <button
+              onclick="fecharEncModal()"
+              style="
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-size: 20px;
+                color: #6b7280;
+              ">
+              &times;
+            </button>
+          </div>
+          <div class="ops-modal-body" style="padding: 16px 18px">
+            <div class="fld" style="margin-bottom: 10px">
+              <label>N&ordm; Encomenda</label>
+              <input
+                type="text"
+                id="enc-num"
+                autocomplete="off"
+                placeholder="ex: ENC-2026-001" />
+            </div>
+            <div class="fld" style="margin-bottom: 10px">
+              <label>Refer&ecirc;ncia</label>
+              <input
+                type="text"
+                id="enc-ref"
+                autocomplete="off"
+                placeholder="ex: AD405" />
+            </div>
+            <div class="fld" style="margin-bottom: 10px">
+              <label>Quantidade (pe&ccedil;as)</label>
+              <input type="number" id="enc-qty" min="1" placeholder="ex: 500" />
+            </div>
+            <div class="fld" style="margin-bottom: 10px">
+              <label>Cliente</label>
+              <input
+                type="text"
+                id="enc-cli"
+                autocomplete="off"
+                placeholder="ex: DENIER" />
+            </div>
+            <div class="fld" style="margin-bottom: 10px">
+              <label>Categoria</label>
+              <select
+                id="enc-categoria"
+                style="
+                  width: 100%;
+                  padding: 7px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  font-size: 13px;
+                ">
+                <option value="underwear">&#129507; Underwear</option>
+                <option value="banho">&#127946; Banho</option>
+                <option value="desporto">&#127939; Desporto</option>
+                <option value="outros">&#128230; Outros</option>
+              </select>
+            </div>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+              <div class="fld">
+                <label
+                  >&#128197; Entrega pedida
+                  <span style="font-size: 10px; color: #9ca3af"
+                    >(cliente)</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="enc-dt-cliente"
+                  placeholder="ex: Sem 27 ou 20/07" />
+              </div>
+              <div class="fld">
+                <label
+                  >&#128197; Entrega confirmada
+                  <span style="font-size: 10px; color: #9ca3af"
+                    >(nossa)</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="enc-dt-nossa"
+                  placeholder="ex: Sem 28 ou 25/07" />
+              </div>
+            </div>
+            <div
+              style="
+                margin-top: 10px;
+                display: grid;
+                grid-template-columns: 1fr 80px;
+                gap: 8px;
+                align-items: end;
+              ">
+              <div class="fld">
+                <label
+                  >&#127968; Fam&iacute;lia
+                  <span style="font-size: 10px; color: #9ca3af"
+                    >(opcional &mdash; agrupa modelos relacionados)</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="enc-familia"
+                  placeholder="ex: BOXER, FAM-01, VERAO26..." />
+              </div>
+              <div class="fld">
+                <label style="font-size: 11px">Cor</label>
+                <input
+                  type="color"
+                  id="enc-familia-cor"
+                  value="#6366f1"
+                  style="
+                    width: 100%;
+                    height: 36px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    padding: 2px;
+                  " />
+              </div>
+            </div>
+            <div
+              style="
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid #e5e7eb;
+              ">
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: #374151;
+                  margin-bottom: 8px;
+                ">
+                Operações externas
+                <span style="font-weight: 400; color: #9ca3af"
+                  >(opcional — seleciona as que se aplicam)</span
+                >
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    padding: 6px 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    flex: 1;
+                    min-width: 120px;
+                    justify-content: center;
+                  "
+                  id="lbl-estampar">
+                  <input
+                    type="checkbox"
+                    id="enc-estampar"
+                    style="width: 15px; height: 15px; accent-color: #7c3aed" />
+                  🖨️ Estampar
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    padding: 6px 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    flex: 1;
+                    min-width: 120px;
+                    justify-content: center;
+                  "
+                  id="lbl-bordar">
+                  <input
+                    type="checkbox"
+                    id="enc-bordar"
+                    style="width: 15px; height: 15px; accent-color: #7c3aed" />
+                  🧵 Bordar
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    padding: 6px 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    flex: 1;
+                    min-width: 120px;
+                    justify-content: center;
+                  "
+                  id="lbl-preformar">
+                  <input
+                    type="checkbox"
+                    id="enc-preformar"
+                    style="width: 15px; height: 15px; accent-color: #7c3aed" />
+                  🔧 Preformar
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    padding: 6px 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    flex: 1;
+                    min-width: 120px;
+                    justify-content: center;
+                  "
+                  id="lbl-entretelar">
+                  <input
+                    type="checkbox"
+                    id="enc-entretelar"
+                    style="width: 15px; height: 15px; accent-color: #7c3aed" />
+                  🪡 Entretelar
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="ops-modal-ftr">
+            <button class="btn" onclick="fecharEncModal()">Cancelar</button>
+            <button class="btn btnp" onclick="confirmarEnc()">
+              &#10003; Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: mover para planeamento -->
+      <div class="ops-modal-overlay" id="plan-enc-modal-overlay">
+        <div class="ops-modal" style="width: 400px">
+          <div class="ops-modal-hdr">
+            <span>Enviar para Planeamento</span>
+            <button
+              onclick="
+                document
+                  .getElementById('plan-enc-modal-overlay')
+                  .classList.remove('open')
+              "
+              style="
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-size: 20px;
+                color: #6b7280;
+              ">
+              &times;
+            </button>
+          </div>
+          <div class="ops-modal-body" style="padding: 16px 18px">
+            <p style="font-size: 13px; color: #374151; margin-bottom: 12px">
+              Escolhe a linha de produ&ccedil;&atilde;o e a semana:
+            </p>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-bottom: 14px;
+              ">
+              <div class="fld">
+                <label>Ano</label>
+                <input
+                  type="number"
+                  id="plan-modal-ano"
+                  style="
+                    width: 100%;
+                    padding: 7px 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    font-size: 13px;
+                  "
+                  min="2024"
+                  max="2030" />
+              </div>
+              <div class="fld">
+                <label>N&ordm; Semana</label>
+                <input
+                  type="number"
+                  id="plan-modal-sem"
+                  style="
+                    width: 100%;
+                    padding: 7px 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    font-size: 13px;
+                  "
+                  min="1"
+                  max="53" />
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btnp"
+                style="flex: 1; justify-content: center; padding: 12px"
+                onclick="moverParaPlaneamento('p13')">
+                &#128197; Plan. P13
+              </button>
+              <button
+                class="btn"
+                style="
+                  flex: 1;
+                  justify-content: center;
+                  padding: 12px;
+                  background: #0f6e56;
+                  color: #fff;
+                  border-color: #0f6e56;
+                "
+                onclick="moverParaPlaneamento('cotton')">
+                &#128197; Plan. COTTON
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menu de contexto (botão direito) -->
+      <div
+        id="ctx-menu"
+        style="
+          display: none;
+          position: fixed;
+          z-index: 9998;
+          background: #fff;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          padding: 6px 0;
+          min-width: 200px;
+        ">
+        <div
+          id="ctx-abrir-sep"
+          style="
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #374151;
+          "
+          onmouseenter="this.style.background = '#f3f4f6'"
+          onmouseleave="this.style.background = ''">
+          &#128196; Abrir neste separador
+        </div>
+        <div
+          id="ctx-abrir-novo"
+          style="
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #374151;
+          "
+          onmouseenter="this.style.background = '#f3f4f6'"
+          onmouseleave="this.style.background = ''">
+          &#128279; Abrir num novo separador
+        </div>
+      </div>
+      <div class="ops-modal-overlay" id="pin-modal-overlay">
+        <div class="ops-modal" style="width: 300px; text-align: center">
+          <div class="ops-modal-hdr" style="justify-content: center">
+            <span style="font-size: 15px">&#128274; Acesso restrito</span>
+          </div>
+          <div class="ops-modal-body" style="padding: 20px 24px">
+            <div style="font-size: 13px; color: #6b7280; margin-bottom: 14px">
+              Introduz o PIN para continuar
+            </div>
+            <input
+              type="password"
+              id="pin-input"
+              autocomplete="new-password"
+              maxlength="6"
+              placeholder="&#9679;&#9679;&#9679;&#9679;"
+              style="
+                width: 100%;
+                font-size: 22px;
+                text-align: center;
+                letter-spacing: 8px;
+                padding: 10px;
+                border: 2px solid #d1d5db;
+                border-radius: 8px;
+                outline: none;
+              "
+              onkeydown="if (event.key === 'Enter') confirmarPin();"
+              oninput="
+                document.getElementById('pin-erro').style.display = 'none'
+              " />
+            <div
+              id="pin-erro"
+              style="
+                display: none;
+                color: #dc2626;
+                font-size: 12px;
+                margin-top: 8px;
+              ">
+              PIN incorrecto. Tenta de novo.
+            </div>
+          </div>
+          <div class="ops-modal-ftr">
+            <button class="btn" onclick="fecharPinModal()">Cancelar</button>
+            <button class="btn btnp" onclick="confirmarPin()">
+              &#10003; Confirmar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== HISTÓRICO ===== -->
+      <!-- ===== HISTÓRICO ===== -->
+      <!-- ===== PACKING LIST P13 ===== -->
+      <div id="pg-pack-p13" class="pg">
+        <div id="pg-pack-p13-inner"></div>
+      </div>
+
+      <!-- ===== PACKING LIST COTTON ===== -->
+      <div id="pg-pack-cotton" class="pg">
+        <div id="pg-pack-cotton-inner"></div>
+      </div>
+
+      <div id="pg-historico" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#128203; Hist&#243;rico de Altera&#231;&#245;es
+          </div>
+          <div style="display: flex; gap: 6px; align-items: center">
+            <button
+              id="btn-hist-selecionar"
+              class="btn bsm"
+              onclick="toggleHistoricoSelecao()">
+              &#9745; Selecionar
+            </button>
+            <button
+              id="btn-hist-apagar-sel"
+              class="btn btnd bsm"
+              onclick="apagarHistoricoSelecionados()"
+              style="display: none">
+              &#128465; Apagar selecionados
+            </button>
+            <button
+              id="btn-hist-cancelar-sel"
+              class="btn bsm"
+              onclick="cancelarHistoricoSelecao()"
+              style="display: none">
+              Cancelar
+            </button>
+          </div>
+        </div>
+        <div id="historico-lista">
+          <div class="empty">
+            <div style="font-size: 36px">&#128203;</div>
+            <strong>Nenhuma altera&#231;&#227;o registada</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CORTE ===== -->
+      <div id="pg-corte" class="pg">
+        <div class="hrow" style="margin-bottom: 14px">
+          <div style="font-size: 15px; font-weight: 700">
+            &#9986;&#65039; Pedidos Prontos para Cortar
+          </div>
+          <span style="font-size: 12px; color: #6b7280"
+            >Encomendas com a etapa "Em corte" conclu&iacute;da</span
+          >
+        </div>
+        <div class="card" style="padding: 10px 14px; margin-bottom: 12px">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="font-size: 16px">&#128269;</span>
+            <input
+              type="text"
+              id="corte-search"
+              placeholder="Pesquisar por n&ordm; encomenda, refer&ecirc;ncia ou cliente..."
+              oninput="renderCorte()"
+              style="
+                flex: 1;
+                border: none;
+                outline: none;
+                font-size: 13px;
+                padding: 6px 0;
+              " />
+            <button
+              onclick="
+                document.getElementById('corte-search').value = '';
+                renderCorte();
+              "
+              style="
+                border: none;
+                background: none;
+                cursor: pointer;
+                color: #9ca3af;
+                font-size: 16px;
+              ">
+              &#x2715;
+            </button>
+          </div>
+        </div>
+        <div id="corte-lista"></div>
+      </div>
+
+      <!-- ===== CONFIGURAÇÃO ===== -->
+      <div id="pg-cfg" class="pg">
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 14px">
+          &#9881;&#65039; Configura&ccedil;&atilde;o Supabase
+        </div>
+
+        <div class="card">
+          <div class="stitle">Credenciais da Supabase</div>
+          <p
+            style="
+              font-size: 13px;
+              color: #374151;
+              margin-bottom: 16px;
+              line-height: 1.6;
+            ">
+            Introduz aqui as credenciais do teu projecto Supabase.<br />
+            Encontras-nas em
+            <strong
+              >supabase.com &rarr; Projecto &rarr; Settings &rarr; API</strong
+            >
+          </p>
+          <div class="fld" style="margin-bottom: 12px">
+            <label>URL do projecto</label>
+            <input
+              id="cfg-url"
+              placeholder="https://xxxxxxxxxxxx.supabase.co"
+              style="font-family: monospace; font-size: 12px" />
+          </div>
+          <div class="fld" style="margin-bottom: 16px">
+            <label>Publishable key (ou anon key)</label>
+            <input
+              id="cfg-key"
+              placeholder="sb_publishable_... ou eyJhbGci..."
+              type="password"
+              style="font-family: monospace; font-size: 12px" />
+            <span style="font-size: 11px; color: #9ca3af; margin-top: 3px"
+              >Esta chave fica guardada apenas neste browser</span
+            >
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 12px">
+            <button class="btn btnp" onclick="guardarConfig()">
+              &#128190; Guardar e ligar
+            </button>
+            <button class="btn" onclick="testarConfig()">
+              &#128268; Testar liga&ccedil;&atilde;o
+            </button>
+          </div>
+          <div id="cfg-msg" class="msg"></div>
+        </div>
+
+        <div class="card" style="background: #fffbeb; border-color: #fcd34d">
+          <div
+            style="
+              font-size: 13px;
+              font-weight: 700;
+              margin-bottom: 10px;
+              color: #92400e;
+            ">
+            &#128204; Como configurar a Supabase (passo a passo)
+          </div>
+          <ol
+            style="
+              font-size: 13px;
+              color: #374151;
+              line-height: 2;
+              padding-left: 18px;
+            ">
+            <li>
+              Vai a <strong>supabase.com</strong> e cria uma conta gratuita
+            </li>
+            <li>
+              Cria um <strong>New Project</strong> (d&aacute;-lhe um nome, ex:
+              <em>fichas-custo</em>)
+            </li>
+            <li>Aguarda ~2 minutos at&eacute; o projecto estar pronto</li>
+            <li>
+              Vai a <strong>SQL Editor</strong> e corre o ficheiro
+              <code>supabase_setup.sql</code> que te foi fornecido
+            </li>
+            <li>
+              Vai a <strong>Settings &rarr; API</strong> e copia:<br />
+              &nbsp;&nbsp;&bull; <strong>Project URL</strong> (ex:
+              https://abc123.supabase.co)<br />
+              &nbsp;&nbsp;&bull; <strong>Publishable key</strong> (come&ccedil;a
+              com <code>sb_publishable_</code>) ou
+              <strong>anon key</strong> (come&ccedil;a com <code>eyJ</code>)
+            </li>
+            <li>
+              Cola as duas chaves aqui em cima e clica
+              <strong>Guardar e ligar</strong>
+            </li>
+            <li>
+              Partilha este ficheiro HTML com os colegas &mdash; todos ligam
+              &agrave; mesma Supabase
+            </li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px">
+            Estado actual da liga&ccedil;&atilde;o
+          </div>
+          <div id="cfg-estado" style="font-size: 13px; color: #6b7280">
+            A verificar...
+          </div>
+        </div>
+      </div>
+      <!-- Modal de selecção de operações -->
+      <div class="ops-modal-overlay" id="ops-modal-overlay">
+        <div class="ops-modal">
+          <div class="ops-modal-hdr">
+            <span>Seleccionar opera&ccedil;&otilde;es</span>
+            <button
+              onclick="fecharOpsModal()"
+              style="
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-size: 20px;
+                color: #6b7280;
+              ">
+              &times;
+            </button>
+          </div>
+          <div class="ops-modal-body" id="ops-modal-body"></div>
+          <div class="ops-modal-ftr">
+            <button class="btn" onclick="fecharOpsModal()">Cancelar</button>
+            <button class="btn" style="background:#f0f9ff;border-color:#bae6fd;color:#0369a1;font-weight:600" onclick="abrirReprogramarDoModal()">&#128197; Reprogramar</button>
+            <button class="btn btnp" onclick="confirmarOps()">
+              &#10003; Confirmar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: criar/editar pasta -->
+      <div class="ops-modal-overlay" id="pasta-modal-overlay">
+        <div class="ops-modal" style="width: 340px">
+          <div class="ops-modal-hdr">
+            <span id="pasta-modal-titulo">Nova pasta</span>
+            <button
+              onclick="fecharPastaModal()"
+              style="
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-size: 20px;
+                color: #6b7280;
+              ">
+              &times;
+            </button>
+          </div>
+          <div class="ops-modal-body" style="padding: 16px 18px">
+            <div class="fld">
+              <label>Nome da pasta</label>
+              <input
+                type="text"
+                id="pasta-nome-input"
+                placeholder="ex: Cliente X, Ver\u00e3o 2026..."
+                style="margin-top: 4px" />
+            </div>
+          </div>
+          <div class="ops-modal-ftr">
+            <button class="btn" onclick="fecharPastaModal()">Cancelar</button>
+            <button class="btn btnp" onclick="confirmarPasta()">
+              &#10003; Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: mover ficha para pasta -->
+      <div class="ops-modal-overlay" id="mover-modal-overlay">
+        <div class="ops-modal" style="width: 360px">
+          <div class="ops-modal-hdr">
+            <span>Mover para pasta</span>
+            <button
+              onclick="fecharMoverModal()"
+              style="
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-size: 20px;
+                color: #6b7280;
+              ">
+              &times;
+            </button>
+          </div>
+          <div
+            class="ops-modal-body"
+            id="mover-modal-body"
+            style="padding: 8px 0"></div>
+          <div class="ops-modal-ftr">
+            <button class="btn" onclick="fecharMoverModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+    <!-- Modal de Filtros de Status -->
+    <div class="ops-modal-overlay" id="filtros-status-overlay">
+      <div class="ops-modal" style="width: 440px">
+        <div class="ops-modal-hdr">
+          <span>&#9878; Filtros de Encomendas</span>
+          <button
+            onclick="
+              document
+                .getElementById('filtros-status-overlay')
+                .classList.remove('open')
+            "
+            style="
+              border: none;
+              background: none;
+              cursor: pointer;
+              font-size: 20px;
+              color: #6b7280;
+            ">
+            &times;
+          </button>
+        </div>
+        <div class="ops-modal-body" style="padding: 16px 18px">
+          <!-- Categoria -->
+          <div style="margin-bottom: 16px">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                color: #9ca3af;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 8px;
+              ">
+              Categoria
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px">
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-cat"
+                  id="flt-cat-underwear"
+                  value="underwear"
+                  style="width: 14px; height: 14px; accent-color: #1a4f8b" />
+                &#129507; Underwear
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-cat"
+                  id="flt-cat-banho"
+                  value="banho"
+                  style="width: 14px; height: 14px; accent-color: #0f6e56" />
+                &#127946; Banho
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-cat"
+                  id="flt-cat-desporto"
+                  value="desporto"
+                  style="width: 14px; height: 14px; accent-color: #7c3aed" />
+                &#127939; Desporto
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-cat"
+                  id="flt-cat-outros"
+                  value="outros"
+                  style="width: 14px; height: 14px; accent-color: #6b7280" />
+                &#128230; Outros
+              </label>
+            </div>
+          </div>
+
+          <!-- Etapa -->
+          <div style="margin-bottom: 16px">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                color: #9ca3af;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 8px;
+              ">
+              Etapa
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px">
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-step"
+                  id="flt-step-malha"
+                  value="malha"
+                  style="width: 14px; height: 14px; accent-color: #1a4f8b" />
+                &#129526; Malha
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-step"
+                  id="flt-step-corte"
+                  value="corte"
+                  style="width: 14px; height: 14px; accent-color: #1a4f8b" />
+                &#9986;&#65039; Em corte
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-step"
+                  id="flt-step-cortada"
+                  value="cortada"
+                  style="width: 14px; height: 14px; accent-color: #1a4f8b" />
+                &#128203; Cortadas
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-step"
+                  id="flt-step-acess"
+                  value="acess"
+                  style="width: 14px; height: 14px; accent-color: #1a4f8b" />
+                &#129521; Acess&oacute;rios
+              </label>
+            </div>
+          </div>
+
+          <!-- Operação externa -->
+          <div style="margin-bottom: 16px">
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                color: #9ca3af;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 8px;
+              ">
+              Opera&ccedil;&atilde;o externa
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px">
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-ext"
+                  id="flt-ext-estampar"
+                  value="estampar"
+                  style="width: 14px; height: 14px; accent-color: #7c3aed" />
+                &#128424;&#65039; Estampar
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-ext"
+                  id="flt-ext-bordar"
+                  value="bordar"
+                  style="width: 14px; height: 14px; accent-color: #7c3aed" />
+                &#129525; Bordar
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-ext"
+                  id="flt-ext-preformar"
+                  value="preformar"
+                  style="width: 14px; height: 14px; accent-color: #7c3aed" />
+                &#128295; Preformar
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-ext"
+                  id="flt-ext-entretelar"
+                  value="entretelar"
+                  style="width: 14px; height: 14px; accent-color: #7c3aed" />
+                &#129521; Entretelar
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-ext"
+                  id="flt-ext-etiquetas"
+                  value="etiquetas"
+                  style="width: 14px; height: 14px; accent-color: #7c3aed" />
+                🏷️ Etiquetas
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  class="flt-ext"
+                  id="flt-ext-pegatinas"
+                  value="pegatinas"
+                  style="width: 14px; height: 14px; accent-color: #7c3aed" />
+                🔖 Pegatinas
+              </label>
+            </div>
+          </div>
+
+          <!-- Estado -->
+          <div>
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                color: #9ca3af;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 8px;
+              ">
+              Estado
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px">
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  id="flt-urgentes"
+                  style="width: 14px; height: 14px; accent-color: #dc2626" />
+                &#9888;&#65039; Urgentes
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  padding: 5px 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  min-width: 120px;
+                ">
+                <input
+                  type="checkbox"
+                  id="flt-prontas-confec"
+                  style="width: 14px; height: 14px; accent-color: #16a34a" />
+                &#9989; Prontas p/ confeccionar
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="ops-modal-ftr">
+          <button class="btn btnd bsm" onclick="limparFiltrosStatus()">
+            Limpar filtros
+          </button>
+          <button
+            class="btn"
+            onclick="
+              document
+                .getElementById('filtros-status-overlay')
+                .classList.remove('open')
+            ">
+            Cancelar
+          </button>
+          <button class="btn btnp" onclick="aplicarFiltrosStatus()">
+            &#10003; Aplicar
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
